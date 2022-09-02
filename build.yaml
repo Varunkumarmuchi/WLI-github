@@ -1,0 +1,21 @@
+jobs:
+  job_id:
+    # ...
+
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    # actions/checkout MUST come before auth
+    - uses: 'actions/checkout@v3'
+
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        workload_identity_provider: 'projects/489747423487/locations/global/workloadIdentityPools/github-wif-pool/providers/githubwif'
+        service_account: 'test-wif@cts01-varunkr.iam.gserviceaccount.com'
+
+    # ... further steps are automatically authenticated
